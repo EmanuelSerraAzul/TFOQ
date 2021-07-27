@@ -1,0 +1,87 @@
+﻿@model List<ProjetoTfoq.Models.Mantimento>
+@{
+    ViewBag.Title = "Index";
+}
+<h2> Mantimentos na Dispensa </h2>
+
+    <div class="form-group input-group " style="margin:50px">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+        <input name="consulta" id="filtro-nome" placeholder="Consulta" type="text" class="form-control col-sm-12" />
+    </div>
+
+<table class="table table-striped table-hover" id="lista">
+    
+    <thead>
+        <tr>
+            <td scope="col">Código</td>
+            <td scope="col">Mantimento</td>
+            <td scope="col">Und.Medida</td>
+            <td scope="col">Marca</td>
+            <td scope="col">Validade</td>
+            <td scope="col">Capacidade</td>
+            <td scope="col">Conteúdo Atual</td>
+            <td scope="col">% Disponivel</td>
+            <td scope="col">Obrigatório</td>
+            <td><a class="success"><i class="bi bi-list-check"></i></a></td>
+            <td><a class="danger"><i class="bi bi-pencil-square"></i></a></td>
+            <td><a class="warning"><i class="bi bi-trash"></i></a></td>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Tipo</td>
+            <td>@item.Unidade</td>
+            <td>@item.Marca</td>
+            <td>@item.Validade</td>
+            <td>@item.Capacidade</td>
+            <td>@item.ConteudoAtual</td>
+            <td>@item.Percentual</td>
+            <td>@item.Obrigatorio</td>
+
+            <td><a href="/Mantimento/Detalhes/@item.Id"><i class="bi bi-list-check"></i></a></td>
+            <td><a href="/Mantimento/Alterar/@item.Id"><i class="bi bi-pencil-square"></i></a></td>
+
+            <td><a onclick="Excluir(@item.Id)" class="warning "><i class="bi bi-trash"></i></a></td>
+        </tr>
+        }
+
+    </tbody>
+
+</table>
+
+
+<a href="/Mantimento/cadastro/" class="btn btn-primary">Novo Mantimento</a>
+<script>
+    function Excluir(id) {
+        $.ajax({
+            type: "GET",
+            url: "/mantimento/Delete/" + id,
+            dataType: 'json',
+            success: function (obj) {
+                alert(obj);
+                location.href = '/mantimento';
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    }
+
+    const input = document.getElementById('filtro-nome');
+    const trs = [...document.querySelectorAll('#lista tbody tr')];
+
+    input.addEventListener('input', () => {
+        const search = input.value.toLowerCase();
+        trs.forEach(el => {
+            const matches = el.textContent.toLowerCase().includes(search);
+            el.style.display = matches ? '' : 'none';
+        });
+    });
+</script>
+
+

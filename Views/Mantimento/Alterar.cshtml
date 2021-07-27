@@ -1,0 +1,105 @@
+﻿@model ProjetoTfoq.Models.Mantimento
+@{
+    ViewBag.Title = "Alterar";
+}
+
+<h2>Alterar</h2>
+
+<div class="form-group row">
+
+    <div class="col-sm-5">
+        <label>Mantimento</label>
+        <input type="text" id="tipo" class="form-control" MaxLength="30" value="@Model.Tipo" />
+    </div>
+
+    <div class="col-sm-1">
+        <label>Und.Med</label>
+        <input type="text" id="unidade" class="form-control" MaxLength="10" value="@Model.Unidade" />
+    </div>
+
+    <div class="col-sm-3">
+        <label>Marca</label>
+        <input type="text" id="marca" class="form-control" MaxLength="30"value="@Model.Marca" />
+    </div>
+
+    <div class="col-sm-3">
+        <label>Validade</label>
+        <input type="datetime" id="validade" class="form-control" value="@Model.Validade"/>
+    </div>
+</div>
+
+<div class="form-group row">
+    <div class="col-sm-2">
+        <label>Tags</label>
+        <input type="text" id="tags" class="form-control" MaxLength="15" value="@Model.Tags"/>
+    </div>
+
+    <div class="col-sm-4">
+        <label>Capaciade</label>
+        <input onchange="CalculaPercentual()" type="text" id="capacidade" class="form-control" MaxLength="5" value="@Model.Capacidade" />
+    </div>
+
+    <div class="col-sm-4">
+        <label>Conteúdo Atual</label>
+        <input type="text" id="conteudo" class="form-control" MaxLength="5" value="@Model.ConteudoAtual"/>
+    </div>
+
+    <div class="col-sm-2">
+        <label>Obrigatório</label>
+
+        <select class="form-control" id="obrigatorio" required>
+            <option selected></option>
+            <option>Sim</option>
+            <option>Não</option>
+        </select>
+
+
+    </div>
+
+
+
+
+
+</div>
+
+
+<button onclick="Salvar()" type="button" class="btn btn-primary">Salvar</button>
+
+
+
+<a href="/mantimento/index" class="btn btn-primary">Voltar</a>
+
+
+
+
+<script>
+    function Salvar() {
+        var mantimento = new Object();
+        mantimento.Tipo = $('#tipo').val();
+        mantimento.Unidade = $('#unidade').val();
+        mantimento.Marca = $('#marca').val();
+        mantimento.Validade = $('#validade').val();
+        mantimento.Tags = $('#tags').val();
+        mantimento.Capacidade = $('#capacidade').val();
+        mantimento.ConteudoAtual = $('#conteudo').val();
+        mantimento.Percentual = $('#percentual').val();
+        mantimento.Obrigatorio = $('#obrigatorio').val();
+        $.ajax({
+            $.ajax({
+                type: "POST",
+                url: "/mantimento/update",
+                data: mantimento,
+                dataType: 'json',
+                success: function (obj) {
+                    alert(obj);
+                    location.href = '/mantimento';
+                },
+                error: function (error) {
+                }
+            });
+        }
+
+</script>
+
+
+
